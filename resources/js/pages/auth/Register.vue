@@ -44,6 +44,8 @@ const errors = ref<any>({});
 // const errors = ref<Array<string>>([]);
 
 const submit = () => {
+    console.log("Formulaire soumis :", form.data());
+
     form.post(route('register'), {
         forceFormData: true,
         onSuccess: () => {
@@ -134,6 +136,7 @@ onMounted(() => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
+                            <InputError :message="form.errors.country_id" />
                         </div>
                     </div>
                 </div>
@@ -186,14 +189,14 @@ onMounted(() => {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 justify-items-baseline">
                         <div class="grid gap-2">
                             <Label for="password">Mot de passe</Label>
-                            <Input placeholder="Votre mot de passe" id="password" type="text" required autofocus
+                            <Input placeholder="Votre mot de passe" id="password" type="password" required autofocus
                                 :tabindex="12" v-model="form.password" />
                             <InputError :message="form.errors.password" />
                         </div>
                         <div class="grid gap-2">
                             <Label for="password_confirmation">Confirmation de mot de passe</Label>
                             <Input placeholder="Confirmation de votre mot de passe" id="password_confirmation"
-                                type="text" required autofocus :tabindex="13" v-model="form.password_confirmation" />
+                                type="password" required autofocus :tabindex="13" v-model="form.password_confirmation" />
                             <InputError :message="form.errors.password_confirmation" />
                         </div>
                     </div>
