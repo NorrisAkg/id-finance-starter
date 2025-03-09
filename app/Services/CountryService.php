@@ -11,4 +11,9 @@ final class CountryService
     {
         return Country::all();
     }
+
+    public function getById(int $id): Country
+    {
+        return Country::findOrFail($id);
+    }
 }

@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('settings.edit', absolute: false));
+            return redirect()->intended(route('profile.edit', absolute: false));
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return back()->withErrors([
@@ -54,6 +54,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

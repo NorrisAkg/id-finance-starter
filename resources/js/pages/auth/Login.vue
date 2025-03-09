@@ -29,7 +29,11 @@ const submit = () => {
         onSuccess: () => {
             form.reset();
         },
-        onFinish: () => form.reset('password'),
+        // onFinish: () => form.reset('password'),
+        onError: (e) => {
+            console.log(e);
+            // form.reset('password');
+        },
     });
 };
 

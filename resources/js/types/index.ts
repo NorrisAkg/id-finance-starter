@@ -38,6 +38,7 @@ export interface User {
     mobile_phone: string;
     piece_number: string;
     identifiant: string;
+    picture: string;
     created_at: string;
     updated_at: string;
 }
