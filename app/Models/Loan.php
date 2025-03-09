@@ -10,9 +10,8 @@ class Loan extends Model
 {
     protected $fillable = [
         'amount',
-        'rib',
-        'date',
-        'status',
+        'rib_code',
+        'reason',
         'user_id',
     ];
 

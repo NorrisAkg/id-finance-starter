@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->float('amount', 2);
+            $table->string('reason')->nullable();
+            $table->string('rib_code');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
