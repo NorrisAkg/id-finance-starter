@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('settings.edit', absolute: false));
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return back()->withErrors([

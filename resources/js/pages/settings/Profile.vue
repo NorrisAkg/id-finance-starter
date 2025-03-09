@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem, type SharedData, type User } from '@/types';
+import { LassoSelect } from 'lucide-vue-next';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -30,8 +31,17 @@ const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
 
 const form = useForm({
-    name: user.name,
+    firstname: user.firstname,
+    lastname: user.lastname,
     email: user.email,
+    telephone: user.telephone,
+    mobile_phone: user.mobile_phone,
+    address: user.address,
+    city: user.city,
+    postal_code: user.postal_code,
+    country_id: user.country_id,
+    identifiant: user.identifiant,
+    piece_number: user.piece_number,
 });
 
 const submit = () => {

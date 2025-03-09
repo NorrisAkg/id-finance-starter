@@ -1,3 +1,4 @@
+import { Country } from './index';
 import type { PageProps } from '@inertiajs/core';
 import type { LucideIcon } from 'lucide-vue-next';
 
@@ -25,10 +26,18 @@ export interface SharedData extends PageProps {
 
 export interface User {
     id: number;
-    name: string;
+    firstname: string;
+    lastname: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
+    telephone: string;
+    country_id: number;
+    country: Country;
+    city: string;
+    address: string;
+    postal_code: string;
+    mobile_phone: string;
+    piece_number: string;
+    identifiant: string;
     created_at: string;
     updated_at: string;
 }

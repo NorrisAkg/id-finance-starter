@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { onMounted } from 'vue';
 
 defineProps<{
     status?: string;
@@ -31,15 +32,20 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+onMounted(() => {
+    console.log("props", props.flash);
+})
 </script>
 
 <template>
     <AuthBase single-column title="Connexion" description="Entrez vos informations pour vous connecter">
+
         <Head title="Connexion" />
 
         <!-- Message de succès -->
-    <div v-if="(props.flash as any).success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-            {{ (props.flash as any).success }}
+        <div v-if="(props.flash as any)?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+            {{ (props.flash as any)?.success }}
         </div>
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
@@ -50,35 +56,21 @@ const submit = () => {
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="email">Adresse email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        required
-                        autofocus
-                        :tabindex="1"
-                        autocomplete="email"
-                        v-model="form.email"
-                        placeholder="email@example.com"
-                    />
+                    <Input id="email" type="email" required autofocus :tabindex="1" autocomplete="email"
+                        v-model="form.email" placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="password">Mot de passe</Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
+                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm"
+                            :tabindex="5">
                             Mot de passe oublié ?
                         </TextLink>
                     </div>
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        :tabindex="2"
-                        autocomplete="current-password"
-                        v-model="form.password"
-                        placeholder="Password"
-                    />
+                    <Input id="password" type="password" required :tabindex="2" autocomplete="current-password"
+                        v-model="form.password" placeholder="Password" />
                     <InputError :message="form.errors.password" />
                 </div>
 
@@ -86,15 +78,9 @@ const submit = () => {
                     <div class="flex items-center justify-between">
                         <Label for="password">Code client</Label>
                     </div>
-                    <Input
-                        id="client_code"
-                        type="text"
-                        required
-                        :tabindex="3"
-                        v-model="form.client_code"
-                        placeholder="Code client"
-                    />
-                    <InputError :message="form.errors.password" />
+                    <Input id="client_code" type="text" required :tabindex="3" v-model="form.client_code"
+                        placeholder="Code client" />
+                    <InputError :message="form.errors.client_code" />
                 </div>
 
                 <div class="flex items-center justify-between" :tabindex="3">
