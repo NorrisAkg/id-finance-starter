@@ -32,13 +32,13 @@ const submit = () => {
         <div class="space-y-6">
             <form @submit.prevent="submit">
                 <div class="grid gap-2">
-                    <Label for="email">Email</Label>
+                    <Label class="!text-black/80" for="email">Email</Label>
                     <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="my-6 flex items-center justify-start">
-                    <Button class="w-full" :disabled="form.processing">
+                    <Button class="w-full text-white" :disabled="form.processing">
                         <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                         Obtenir le lien de réinitialisation
                     </Button>
@@ -47,7 +47,7 @@ const submit = () => {
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
                 <span>Ou,</span>
-                <TextLink :href="route('login')">Connectez-vous ici</TextLink>
+                <TextLink class="!text-black/80" :href="route('login')">Connectez-vous ici</TextLink>
             </div>
         </div>
     </AuthLayout>

@@ -6,7 +6,9 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Services\LoanService;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewLoanRequest;
+use App\Mail\LoanRequestNotification;
 
 class LoanController extends Controller
 {
@@ -24,8 +26,15 @@ class LoanController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
+
         $loan = $this->loanService->makeRequest(data:$request->except(['user_id']), user: $user);
 
-        return redirect()->route('loan.edit', $loan->id)->with('status', 'Demande de prêt envoyée avec succès.');
+        // Générer un code pour le client
+        
+
+        // Envoyer un mail au gestionnaire
+        Mail::to(config('mail.from.address'))->send(new LoanRequestNotification($loan));
+
+        return redirect()->route('loan.edit')->with('status', ['success' => 'Demande de prêt envoyée avec succès.']);
     }
 }

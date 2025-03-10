@@ -20,7 +20,7 @@ export default {
                 sm: 'calc(var(--radius) - 4px)',
             },
             colors: {
-                background: 'hsl(var(--background))',
+                background: '#fff',
                 foreground: 'hsl(var(--foreground))',
                 card: {
                     DEFAULT: 'hsl(var(--card))',
@@ -31,7 +31,7 @@ export default {
                     foreground: 'hsl(var(--popover-foreground))',
                 },
                 primary: {
-                    DEFAULT: 'hsl(var(--primary))',
+                    DEFAULT: 'hsl(0deg 71.31% 50.78%)',
                     foreground: 'hsl(var(--primary-foreground))',
                 },
                 secondary: {

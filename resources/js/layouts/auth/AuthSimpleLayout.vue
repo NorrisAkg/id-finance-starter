@@ -15,15 +15,15 @@ defineProps<{
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">
                     <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
-                        <div class="mb-1 flex h-auto w-18 items-center justify-center rounded-md">
+                        <div class="mb-1 bg-black/85 flex w-32 h-32 items-center justify-center rounded-full">
                             <!-- <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" /> -->
-                            <img class="h-full w-full" src="/logo.png" alt="">
+                            <img class="w-28" src="/logo.png" alt="">
                         </div>
-                        <span class="sr-only">{{ title }}</span>
+                        <!-- <span class="sr-only">{{ title }}</span> -->
                     </Link>
                     <div class="space-y-2 text-center">
-                        <h1 class="text-xl font-medium">{{ title }}</h1>
-                        <p class="text-center text-sm text-muted-foreground">{{ description }}</p>
+                        <h1 class="text-xl text-black font-medium">{{ title }}</h1>
+                        <p class="text-center text-sm text-black">{{ description }}</p>
                     </div>
                 </div>
                 <slot />

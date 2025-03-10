@@ -59,28 +59,28 @@ onMounted(() => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Adresse email</Label>
-                    <Input id="email" type="email" required autofocus :tabindex="1" autocomplete="email"
+                    <Label class="text-black/80" for="email">Adresse email</Label>
+                    <Input class="text-black/80" id="email" type="email" required autofocus :tabindex="1" autocomplete="email"
                         v-model="form.email" placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="password">Mot de passe</Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm"
+                        <Label class="text-black/80" for="password">Mot de passe</Label>
+                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm !text-black/80"
                             :tabindex="5">
                             Mot de passe oublié ?
                         </TextLink>
                     </div>
-                    <Input id="password" type="password" required :tabindex="2" autocomplete="current-password"
+                    <Input class="text-black/80" id="password" type="password" required :tabindex="2" autocomplete="current-password"
                         v-model="form.password" placeholder="Password" />
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="password">Code client</Label>
+                        <Label class="text-black/80" for="password">Code client</Label>
                     </div>
                     <Input id="client_code" type="text" required :tabindex="3" v-model="form.client_code"
                         placeholder="Code client" />
@@ -88,13 +88,13 @@ onMounted(() => {
                 </div>
 
                 <div class="flex items-center justify-between" :tabindex="3">
-                    <Label for="remember" class="flex items-center space-x-3">
+                    <Label for="remember" class="flex items-center space-x-3 text-black/80">
                         <Checkbox id="remember" v-model:checked="form.remember" :tabindex="4" />
                         <span>Se souvenir de moi</span>
                     </Label>
                 </div>
 
-                <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
+                <Button type="submit" class="mt-4 w-full text-white" :tabindex="4" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Se connecter
                 </Button>
@@ -102,7 +102,7 @@ onMounted(() => {
 
             <div class="text-center text-sm text-muted-foreground">
                 Pas encore de compte ?
-                <TextLink :href="route('register')" :tabindex="5">S'inscrire</TextLink>
+                <TextLink class="!text-black/80" :href="route('register')" :tabindex="5">S'inscrire</TextLink>
             </div>
         </form>
     </AuthBase>
