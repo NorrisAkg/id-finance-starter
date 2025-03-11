@@ -18,10 +18,10 @@ const sidebarNavItems: NavItem[] = [
         title: 'Demande de prêt',
         href: '/settings/loan-request',
     },
-    // {
-    //     title: 'Appearance',
-    //     href: '/settings/appearance',
-    // },
+    {
+        title: 'Appearance',
+        href: '/settings/appearance',
+    },
 ];
 
 const currentPath = window.location.pathname;

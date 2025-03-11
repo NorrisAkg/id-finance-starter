@@ -32,7 +32,7 @@ const submit = () => {
         <div class="space-y-6">
             <form @submit.prevent="submit">
                 <div class="grid gap-2">
-                    <Label class="!text-black/80" for="email">Email</Label>
+                    <Label for="email">Email</Label>
                     <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
@@ -47,7 +47,7 @@ const submit = () => {
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
                 <span>Ou,</span>
-                <TextLink class="!text-black/80" :href="route('login')">Connectez-vous ici</TextLink>
+                <TextLink :href="route('login')">Connectez-vous ici</TextLink>
             </div>
         </div>
     </AuthLayout>

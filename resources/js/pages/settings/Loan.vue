@@ -101,7 +101,7 @@ const makeLoanRequest = () => {
                     </div>
                 </form>
 
-                <Progress as="div" class="!mt-12 !bg-green-500 !text-green-500" as-child  :model-value="10" />
+                <Progress class="!mt-12" :model-value="10" />
             </div>
         </SettingsLayout>
     </AppLayout>

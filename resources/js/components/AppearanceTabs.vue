@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAppearance } from '@/composables/useAppearance';
 import { Monitor, Moon, Sun } from 'lucide-vue-next';
+import { onMounted } from 'vue';
 
 interface Props {
     class?: string;
@@ -8,13 +9,18 @@ interface Props {
 
 const { class: containerClass = '' } = defineProps<Props>();
 
-const { appearance, updateAppearance } = useAppearance();
+const { appearance, updateAppearance } = useAppearance("light");
 
 const tabs = [
     { value: 'light', Icon: Sun, label: 'Light' },
     { value: 'dark', Icon: Moon, label: 'Dark' },
     { value: 'system', Icon: Monitor, label: 'System' },
 ] as const;
+
+onMounted(() => {
+    console.log("appearance", appearance.value);
+    updateAppearance(appearance.value);
+})
 </script>
 
 <template>

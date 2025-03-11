@@ -31,8 +31,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout single-column title="Réinialisation de mot de passe" description="Veuillez entrer votre nouveau mot de passe.">
-        <Head title="Réinialisation de mot de passe" />
+    <AuthLayout single-column title="Réinitialisation de mot de passe" description="Veuillez entrer votre nouveau mot de passe.">
+        <Head title="Réinitialisation de mot de passe" />
 
         <form @submit.prevent="submit">
             <div class="grid gap-6">
