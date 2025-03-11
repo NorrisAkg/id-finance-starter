@@ -13,6 +13,7 @@ class Loan extends Model
         'rib_code',
         'reason',
         'user_id',
+        'code',
     ];
 
     public function user(): BelongsTo

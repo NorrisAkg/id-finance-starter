@@ -13,9 +13,20 @@ final class LoanService
         /** @var Loan $loan */
         $loan = Loan::make(Arr::except($data, ['user_id']));
         $loan->user()->associate($user);
+
         $loan->save();
 
         return $loan;
+    }
+
+    public function generateLoanCode(Loan $loan): void
+    {
+        $loan->update(['code' => rand(10000, 99999)]);
+    }
+
+    public function verifyCode(Loan $loan, int $code): bool
+    {
+        return $loan->code === $code;
     }
 
     public function findById(int $id): Loan

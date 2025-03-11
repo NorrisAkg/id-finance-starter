@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('rib_code');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->foreignId('user_id')->constrained('users');
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

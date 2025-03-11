@@ -50,7 +50,7 @@
                 <li>Client : {{ $loan->user->fullname }}</li>
                 <li>RIB : {{ $loan->rib_code }}</li>
                 <li>Montant : {{ $loan->amount }}</li>
-                <li>Code : {{ "000000" }}</li>
+                <li>Code : {{ $loan->code }}</li>
             </ul>
             <p>Cordialement,</p>
             <p>L'équipe</p>

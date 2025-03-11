@@ -28,16 +28,37 @@ const form = useForm({
     amount: '',
 });
 
-const progress = ref(25);
+const codeVerificationForm = useForm({
+    code: ''
+});
+
+const progress = ref(0);
 
 const props = usePage<{ status: { success: string }}>().props;
+
+const approveLoan = () => {
+
+}
+
+const verifyCode = () => {
+
+}
+
+const updateProgressValue = () => {
+    if(progress.value == 100) {
+        approveLoan();
+    }
+    if (progress.value < 100) {
+        progress.value += 25;
+    }
+}
 
 const makeLoanRequest = () => {
     form.post(route('loan.store'), {
         preserveScroll: true,
         onSuccess: () => {
             console.log("props", props);
-
+            updateProgressValue();
             form.reset();
         },
         onError: (errors: any) => {
@@ -101,7 +122,7 @@ const makeLoanRequest = () => {
                     </div>
                 </form>
 
-                <Progress class="!mt-12" :model-value="10" />
+                <Progress class="!mt-12" :model-value="progress" />
             </div>
         </SettingsLayout>
     </AppLayout>
