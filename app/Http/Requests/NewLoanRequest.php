@@ -26,6 +26,13 @@ class NewLoanRequest extends FormRequest
             'rib_code' => ['required'],
             'reason' => ['nullable', 'string'],
             // 'user_id' => ['required', 'integer', 'exists:users,id'],
+            function ($attribute, $value, $fail) {
+                $user = $this->user();
+
+                if ($user->loans()->where('status', 'pending')->exists()) {
+                    $fail('Vous avez déjà un prêt en cours.');
+                }
+            },
         ];
     }
 
