@@ -6,7 +6,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Progress } from '@/components/ui/progress'
 import { TransitionRoot } from '@headlessui/vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
@@ -48,6 +48,7 @@ const progress = ref(0);
 const isDialogOpened = ref(false);
 const loanId = ref(page.props.loanId);
 const loan = ref(null);
+const latestPendingLoan = ref(null);
 const codeFormSubtitle = computed(() => {
     if (progress.value == 0) {
         return "Veuillez renseigner le code que votre banque vous a fourni."
@@ -59,10 +60,6 @@ const codeFormSubtitle = computed(() => {
         return "Veuillez renseigner le dernier code que votre banque vous a fourni."
     }
 });
-
-const approveLoan = () => {
-
-}
 
 const verifyCode = () => {
     codeVerificationForm.post(route('loan.code.verify', { loan: (page.props.loan as unknown as { id: number }).id }), {
@@ -81,19 +78,12 @@ const verifyCode = () => {
 }
 
 const updateProgressValue = () => {
-    if (progress.value == 100) {
-        approveLoan();
-    }
     if (progress.value < 100) {
         progress.value += 25;
     }
 }
 
 watchEffect(() => {
-    if ((page.props.loan as unknown as { status: string }).status == 'approved') {
-        progress.value
-    }
-
     if (loanId.value) {
         axios.get(`/api/loans/${loanId.value}`)
             .then(response => {
@@ -105,17 +95,8 @@ watchEffect(() => {
     }
 });
 
-const getPendingLoan = () => {
-
-    const loan = localStorage.getItem('loan');
-    if (loan) {
-        return JSON.parse(loan);
-    }
-    return null;
-}
-
 const makeLoanRequest = () => {
-    if(progress.value == 100) {
+    if (progress.value == 100) {
         progress.value = 0;
     }
     form.post(route('loan.store'), {
@@ -145,6 +126,23 @@ const makeLoanRequest = () => {
         },
     });
 };
+
+const getLatestPendingLoan = () => {
+    axios.get(`/api/loans/get-latest-pending`)
+        .then(response => {
+            latestPendingLoan.value = response.data;
+            if (latestPendingLoan.value) {
+                progress.value = (latestPendingLoan.value as unknown as { code_verified_count: number }).code_verified_count * 25
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la récupération du prêt :", error);
+        });
+}
+
+onMounted(() => {
+    getLatestPendingLoan();
+})
 </script>
 
 <template>
@@ -197,7 +195,8 @@ const makeLoanRequest = () => {
                     <DialogTitle>Code de prêt</DialogTitle>
                     <DialogDescription>
                         {{ codeFormSubtitle }}
-                        <span class="mt-3 font-semibold text-md text-red-600">Veuillez ne pas fermer cette fenêtre ou quitter cette page avant la fin du processus</span>
+                        <span class="mt-3 font-semibold text-md text-red-600">Veuillez ne pas fermer cette fenêtre ou
+                            quitter cette page avant la fin du processus</span>
                     </DialogDescription>
                 </DialogHeader>
                 <div class="grid gap-4 py-4">

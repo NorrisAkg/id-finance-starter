@@ -71,6 +71,13 @@ class LoanController extends Controller
         return response()->json($loan);
     }
 
+    public function getLatestPendingLoan()
+    {
+        $loan = $this->loanService->getUserLatestPendingLoan(request()->user());
+
+        return response()->json($loan);
+    }
+
     public function verifyCode(LoanCodeVerificationRequest $request, Loan $loan)
     {
         if ($this->loanService->verifyCode($loan, $request->code)) {

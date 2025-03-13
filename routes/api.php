@@ -8,3 +8,4 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 Route::get('/loans/{loan}', [App\Http\Controllers\LoanController::class, 'show']);
+Route::get('/loans/get-latest-pending', [App\Http\Controllers\LoanController::class, 'getLatestPendingLoan']);
