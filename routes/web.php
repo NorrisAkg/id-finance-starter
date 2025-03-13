@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return redirect()->away(' https://idealepatrimoine.com/');
 })->name('home');
 
 Route::get('dashboard', function () {
