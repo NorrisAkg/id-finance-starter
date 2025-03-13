@@ -13,6 +13,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Demande de prêt',
@@ -22,6 +32,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
 
 const ribCodeInput = ref<HTMLInputElement | null>(null);
 const amountInput = ref<HTMLInputElement | null>(null);
+
+const isDialogOpened = ref(false);
 
 const form = useForm({
     rib_code: '',
@@ -34,18 +46,23 @@ const codeVerificationForm = useForm({
 
 const progress = ref(0);
 
-const props = usePage<{ status: { success: string }}>().props;
+const props = usePage<{ status: { success: string } }>().props;
 
 const approveLoan = () => {
 
 }
 
 const verifyCode = () => {
-
+    codeVerificationForm.post(route('loan.verify'), {
+        onSuccess: () => {
+            isDialogOpened.value = false;
+            approveLoan();
+        }
+    })
 }
 
 const updateProgressValue = () => {
-    if(progress.value == 100) {
+    if (progress.value == 100) {
         approveLoan();
     }
     if (progress.value < 100) {
@@ -60,6 +77,7 @@ const makeLoanRequest = () => {
             console.log("props", props);
             updateProgressValue();
             form.reset();
+            isDialogOpened.value = true;
         },
         onError: (errors: any) => {
             console.log(errors);
@@ -117,7 +135,7 @@ const makeLoanRequest = () => {
 
                         <TransitionRoot :show="form.recentlySuccessful" enter="transition ease-in-out"
                             enter-from="opacity-0" leave="transition ease-in-out" leave-to="opacity-0">
-                            <p class="text-sm text-neutral-600">Saved</p>
+                            <p class="text-sm text-neutral-600">Demande envoyée</p>
                         </TransitionRoot>
                     </div>
                 </form>
@@ -125,5 +143,29 @@ const makeLoanRequest = () => {
                 <Progress class="!mt-12" :model-value="progress" />
             </div>
         </SettingsLayout>
+
+            <Dialog v-if="isDialogOpened" :open="isDialogOpened" @close="isDialogOpened = false">
+                <DialogContent class="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Code de prêt</DialogTitle>
+                        <DialogDescription>
+                            Renseignez le code que votre banque vous a fourni.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div class="grid gap-4 py-4">
+                        <div class="grid gap-2">
+                        <Label for="verification_code">Code</Label>
+                        <Input id="verification_code" v-model="codeVerificationForm.code"
+                            class="mt-1 block w-full" autocomplete="verification_code" placeholder="Code de vérification" />
+                        <InputError :message="codeVerificationForm.errors.code" />
+                    </div>
+                    </div>
+                    <DialogFooter>
+                        <Button @click="verifyCode">
+                            Valider
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
     </AppLayout>
 </template>

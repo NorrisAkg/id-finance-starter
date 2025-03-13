@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use Illuminate\Validation\Validator;
+use App\Models\Loan;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
-class LoginRequest extends FormRequest
+class LoanCodeVerificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'client_code' => 'required|string',
+            'code' => 'required',
         ];
     }
 
@@ -39,10 +37,16 @@ class LoginRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
-            $user = User::where('email', $this->email)->first();
-            if ($user && $user->client_code !== $this->client_code) {
-                $validator->errors()->add('client_code', 'Le code client que vous avez fourni n\'est pas correct.');
+            $loan = Loan::find($this->loan_id);
+            if ($loan && $loan->code !== $this->code) {
+                $validator->errors()->add('client_code', 'Le code que vous avez fourni n\'est pas correct.');
             }
         });
+    }
+
+    public function messages() {
+        return [
+            'code.required' => 'Le code de prêt est requis.',
+        ];
     }
 }

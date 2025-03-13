@@ -19,6 +19,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings/loan-request', [LoanController::class, 'edit'])->name('loan.edit');
     Route::post('settings/loan-request', [LoanController::class, 'store'])->name('loan.store');
+    Route::post('loans/{loan}/verify', [LoanController::class, 'verifyCode'])->name('loan.code.verify');
+    Route::post('loans/{loan}/approve', [LoanController::class, 'approveLoan'])->name('loan.approve');
 
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');

@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('profile.edit', absolute: false));
+            return redirect()->route('profile.edit');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return back()->withErrors([

@@ -68,7 +68,7 @@ onMounted(() => {
 
         <SettingsLayout>
             <div class="flex flex-col space-y-6">
-                <HeadingSmall title="Profile information" description="Update your name and email address" />
+                <HeadingSmall title="Vos informations personnelles" :with-description="false" description="Update your name and email address" />
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div>
@@ -160,18 +160,18 @@ onMounted(() => {
                         </div>
                     </div> -->
 
-                    <div class="flex items-center gap-4">
+                    <!-- <div class="flex items-center gap-4">
                         <Button :disabled="form.processing">Save</Button>
 
                         <TransitionRoot :show="form.recentlySuccessful" enter="transition ease-in-out"
                             enter-from="opacity-0" leave="transition ease-in-out" leave-to="opacity-0">
                             <p class="text-sm text-neutral-600">Saved.</p>
                         </TransitionRoot>
-                    </div>
+                    </div> -->
                 </form>
             </div>
 
-            <DeleteUser />
+            <!-- <DeleteUser /> -->
         </SettingsLayout>
     </AppLayout>
 </template>
