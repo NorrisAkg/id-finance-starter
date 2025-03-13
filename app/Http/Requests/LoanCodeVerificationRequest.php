@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Loan;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
 
 class LoanCodeVerificationRequest extends FormRequest
@@ -37,16 +38,18 @@ class LoanCodeVerificationRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
-            $loan = Loan::find($this->loan_id);
-            if ($loan && $loan->code !== $this->code) {
-                $validator->errors()->add('client_code', 'Le code que vous avez fourni n\'est pas correct.');
+            // dd($this->loan);
+            Log::info($this->loan);
+            // $loan = Loan::find($this->loan_id);
+            if ($this->loan && $this->loan->code !== $this->code) {
+                $validator->errors()->add('code', 'Le code que vous avez fourni n\'est pas correct.');
             }
         });
     }
 
     public function messages() {
         return [
-            'code.required' => 'Le code de prêt est requis.',
+            'code.required' => 'Le code du prêt est requis.',
         ];
     }
 }

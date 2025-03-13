@@ -2,25 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loan;
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Services\LoanService;
+use App\Mail\LoanCodeVerification;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewLoanRequest;
 use App\Mail\LoanRequestNotification;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoanCodeVerificationRequest;
 
 class LoanController extends Controller
 {
     public function __construct(protected LoanService $loanService)
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('show');
     }
 
     public function edit()
     {
-        return Inertia::render('settings/Loan', []);
+        // if (request()->has('loan_id')) {
+        //     dd(request('loan_id'));
+        // }
+
+        $loanId = request()->has('loan_id')
+            ? request('loan_id')
+            : null;
+
+        /** @var Loan $loan */
+        $loan = request()->has('loan_id')
+            ? Loan::find(request('loan_id'))
+            : $this->loanService->getUserLatestPendingLoan(request()->user());
+
+        // dd($loan);
+
+        return Inertia::render('settings/Loan', [
+            'loan' => $loan,
+            'loanId' => $loanId,
+        ]);
     }
 
     public function store(NewLoanRequest $request)
@@ -28,40 +49,57 @@ class LoanController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $loan = $this->loanService->makeRequest(data:$request->except(['user_id']), user: $user);
+        $loan = $this->loanService->makeRequest(data: $request->except(['user_id']), user: $user);
 
         // Générer un code pour le client
         $this->loanService->generateLoanCode($loan);
 
         $loan->refresh();
 
+        $request->user()->load('loans');
+
         // Envoyer un mail au gestionnaire
         Mail::to(config('mail.from.address'))->send(new LoanRequestNotification($loan));
 
-        return redirect()->route('loan.edit')->with('status', ['success' => 'Demande de prêt envoyée avec succès.']);
+        // dd($loan->toArray());
+
+        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with(['status', ['success' => 'Demande de prêt envoyée avec succès.']]);
     }
 
-    public function verifyCode(NewLoanRequest $request, string $id)
+    public function show(Loan $loan)
     {
-        $loan = $this->loanService->findById($id);
+        return response()->json($loan);
+    }
 
+    public function verifyCode(LoanCodeVerificationRequest $request, Loan $loan)
+    {
         if ($this->loanService->verifyCode($loan, $request->code)) {
+            $loan->update([
+                'code_verified_count' => $loan->code_verified_count + 1
+            ]);
             $this->loanService->generateLoanCode($loan);
+            $loan->refresh();
 
-            return redirect()->route('loan.edit')->with('status', ['success' => 'Demande de prêt approuvée.']);
+            if($loan->code_verified_count == 4) {
+                $this->approveLoan(loan: $loan);
+            }
+
+            // Envoyer un mail au gestionnaire
+            Mail::to(config('mail.from.address'))->send(new LoanCodeVerification($loan));
+
+            return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de prêt approuvée.']);
         }
 
-        return redirect()->route('loan.edit')->with('status', ['error' => 'Code incorrect.']);
+        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['error' => 'Code incorrect.']);
     }
 
-    public function approveLoan(Request $request, string $id) {
-        $loan = $this->loanService->findById($id);
-
+    public function approveLoan(Loan $loan)
+    {
         $loan->update([
             'status' => 'approved',
             'code' => null
         ]);
 
-        return redirect()->route('loan.edit')->with('status', ['success' => 'Demande de prêt approuvée.']);
+        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de prêt approuvée.']);
     }
 }

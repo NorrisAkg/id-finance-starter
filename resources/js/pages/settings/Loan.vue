@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import axios from 'axios';
 import InputError from '@/components/InputError.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Progress } from '@/components/ui/progress'
 import { TransitionRoot } from '@headlessui/vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
@@ -14,13 +15,13 @@ import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
@@ -30,10 +31,9 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
+const page = usePage();
 const ribCodeInput = ref<HTMLInputElement | null>(null);
 const amountInput = ref<HTMLInputElement | null>(null);
-
-const isDialogOpened = ref(false);
 
 const form = useForm({
     rib_code: '',
@@ -45,18 +45,37 @@ const codeVerificationForm = useForm({
 });
 
 const progress = ref(0);
-
-const props = usePage<{ status: { success: string } }>().props;
+const isDialogOpened = ref(false);
+const loanId = ref(page.props.loanId);
+const loan = ref(null);
+const codeFormSubtitle = computed(() => {
+    if (progress.value == 0) {
+        return "Veuillez renseigner le code que votre banque vous a fourni."
+    } else if (progress.value == 25) {
+        return "Veuillez renseigner le deuxième code que votre banque vous a fourni."
+    } else if (progress.value == 50) {
+        return "Veuillez renseigner le troisième code que votre banque vous a fourni."
+    } else if (progress.value == 75) {
+        return "Veuillez renseigner le dernier code que votre banque vous a fourni."
+    }
+});
 
 const approveLoan = () => {
 
 }
 
 const verifyCode = () => {
-    codeVerificationForm.post(route('loan.verify'), {
+    codeVerificationForm.post(route('loan.code.verify', { loan: (page.props.loan as unknown as { id: number }).id }), {
         onSuccess: () => {
             isDialogOpened.value = false;
-            approveLoan();
+            codeVerificationForm.reset();
+            updateProgressValue();
+            if (progress.value < 100) {
+                isDialogOpened.value = true;
+            }
+        },
+        onError: (errors: any) => {
+            console.log(errors);
         }
     })
 }
@@ -70,12 +89,40 @@ const updateProgressValue = () => {
     }
 }
 
+watchEffect(() => {
+    if ((page.props.loan as unknown as { status: string }).status == 'approved') {
+        progress.value
+    }
+
+    if (loanId.value) {
+        axios.get(`/api/loans/${loanId.value}`)
+            .then(response => {
+                loan.value = response.data;
+            })
+            .catch(error => {
+                console.error("Erreur lors de la récupération du prêt :", error);
+            });
+    }
+});
+
+const getPendingLoan = () => {
+
+    const loan = localStorage.getItem('loan');
+    if (loan) {
+        return JSON.parse(loan);
+    }
+    return null;
+}
+
 const makeLoanRequest = () => {
+    if(progress.value == 100) {
+        progress.value = 0;
+    }
     form.post(route('loan.store'), {
         preserveScroll: true,
         onSuccess: () => {
-            console.log("props", props);
-            updateProgressValue();
+            console.log("props", page.props);
+            console.log('loan', loan.value);
             form.reset();
             isDialogOpened.value = true;
         },
@@ -111,9 +158,9 @@ const makeLoanRequest = () => {
                     description="Renseignez les informations suivantes pour faire une demande de prêt" />
 
                 <!-- Message de succès -->
-                <div v-if="props.status?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                <!-- <div v-if="props.status?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
                     {{ props.status.success }}
-                </div>
+                </div> -->
 
                 <form @submit.prevent="makeLoanRequest" class="space-y-6">
                     <div class="grid gap-2">
@@ -140,32 +187,33 @@ const makeLoanRequest = () => {
                     </div>
                 </form>
 
-                <Progress class="!mt-12" :model-value="progress" />
+                <Progress v-if="progress > 0" class="!mt-12" :model-value="progress" />
             </div>
         </SettingsLayout>
 
-            <Dialog v-if="isDialogOpened" :open="isDialogOpened" @close="isDialogOpened = false">
-                <DialogContent class="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Code de prêt</DialogTitle>
-                        <DialogDescription>
-                            Renseignez le code que votre banque vous a fourni.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div class="grid gap-4 py-4">
-                        <div class="grid gap-2">
+        <Dialog v-model:open="isDialogOpened" v-if="isDialogOpened" @close="isDialogOpened = false">
+            <DialogContent class="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Code de prêt</DialogTitle>
+                    <DialogDescription>
+                        {{ codeFormSubtitle }}
+                        <span class="mt-3 font-semibold text-md text-red-600">Veuillez ne pas fermer cette fenêtre ou quitter cette page avant la fin du processus</span>
+                    </DialogDescription>
+                </DialogHeader>
+                <div class="grid gap-4 py-4">
+                    <div class="grid gap-2">
                         <Label for="verification_code">Code</Label>
-                        <Input id="verification_code" v-model="codeVerificationForm.code"
-                            class="mt-1 block w-full" autocomplete="verification_code" placeholder="Code de vérification" />
+                        <Input id="verification_code" v-model="codeVerificationForm.code" class="mt-1 block w-full"
+                            autocomplete="verification_code" placeholder="Code de vérification" />
                         <InputError :message="codeVerificationForm.errors.code" />
                     </div>
-                    </div>
-                    <DialogFooter>
-                        <Button @click="verifyCode">
-                            Valider
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+                </div>
+                <DialogFooter>
+                    <Button @click="verifyCode">
+                        Valider
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </AppLayout>
 </template>

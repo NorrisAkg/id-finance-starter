@@ -26,7 +26,13 @@ final class LoanService
 
     public function verifyCode(Loan $loan, int $code): bool
     {
-        return $loan->code === $code;
+        return $loan->code == $code;
+    }
+
+    public function getUserLatestPendingLoan(User $user): ?Loan
+    {
+        // return Loan::where('user_id', $user->id)->where('status', 'pending')->orderBy('id', 'desc')->first();
+        return $user->loans()->where('status', 'pending')->orderBy('id', 'desc')->first();
     }
 
     public function findById(int $id): Loan

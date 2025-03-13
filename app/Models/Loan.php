@@ -14,6 +14,7 @@ class Loan extends Model
         'reason',
         'user_id',
         'code',
+        'code_verified_count',
     ];
 
     public function user(): BelongsTo
