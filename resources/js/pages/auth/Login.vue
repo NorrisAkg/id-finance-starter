@@ -38,7 +38,7 @@ const submit = () => {
 };
 
 onMounted(() => {
-    console.log("props", props.flash);
+    console.log("props", props);
 })
 </script>
 
@@ -52,7 +52,7 @@ onMounted(() => {
             {{ (props.flash as any)?.success }}
         </div>
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
+        <div v-else-if="status" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
             {{ status }}
         </div>
 
