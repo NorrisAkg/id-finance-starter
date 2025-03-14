@@ -23,10 +23,6 @@ class LoanController extends Controller
 
     public function edit()
     {
-        // if (request()->has('loan_id')) {
-        //     dd(request('loan_id'));
-        // }
-
         $loanId = request()->has('loan_id')
             ? request('loan_id')
             : null;
@@ -87,7 +83,7 @@ class LoanController extends Controller
             $this->loanService->generateLoanCode($loan);
             $loan->refresh();
 
-            if($loan->code_verified_count == 4) {
+            if($loan->code_verified_count == 3) {
                 $this->approveLoan(loan: $loan);
             }
 

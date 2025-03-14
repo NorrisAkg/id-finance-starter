@@ -34,6 +34,7 @@ class User extends Authenticatable
         'piece_number',
         'identifiant',
         'password',
+        'picture',
     ];
 
     /**

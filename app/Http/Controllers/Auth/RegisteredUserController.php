@@ -46,8 +46,8 @@ class RegisteredUserController extends Controller
 
             $data['password'] = Hash::make($data['password']);
 
-            if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
-                $data['photo'] = $this->upload($data['photo'], 'users');
+            if (isset($data['picture']) && $data['picture'] instanceof UploadedFile) {
+                $data['picture'] = $this->upload($data['picture'], 'users');
             }
 
             $user = User::create($data);
@@ -58,8 +58,6 @@ class RegisteredUserController extends Controller
 
             // Envoi d'un email à l'admin
             Mail::to('admin@example.com')->send(new NewUserNotification($user));
-
-            // Auth::login($user);
 
             return redirect()->route('login')->with('flash', [
                 'success' => 'Inscription réussie! Veuillez contacter votre gestionnaire pour obtenir votre code client et vous connecter.'

@@ -33,7 +33,7 @@ const form = useForm({
     identifiant: '',
     password: '',
     password_confirmation: '',
-    photo: null,
+    picture: null,
 });
 
 const props = defineProps<{
@@ -204,10 +204,10 @@ onMounted(() => {
                 <!-- End - Password and Confirm Password -->
 
                 <div>
-                    <Label class="!text-black/80" for="photo">Photo</Label>
-                    <Input id="photo" type="file" :tabindex="14" accept="image/*"
-                        @input="form.photo = $event.target.files[0]" />
-                    <InputError :message="form.errors.photo" />
+                    <Label class="!text-black/80" for="picture">Photo</Label>
+                    <Input id="picture" type="file" :tabindex="14" accept="image/*"
+                        @input="form.picture = $event.target.files[0]" />
+                    <InputError :message="form.errors.picture" />
                 </div>
 
                 <Button type="submit" class="mt-2 w-full text-white" tabindex="5" :disabled="form.processing">

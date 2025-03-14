@@ -44,11 +44,11 @@ const codeVerificationForm = useForm({
     code: ''
 });
 
-const progress = ref(0);
+const progress = ref((page.props.loan as unknown as { code_verified_count: number }).code_verified_count * 25);
 const isDialogOpened = ref(false);
 const loanId = ref(page.props.loanId);
 const loan = ref(null);
-const latestPendingLoan = ref(null);
+const latestPendingLoan = computed(() => page.props.loan);
 const codeFormSubtitle = computed(() => {
     if (progress.value == 0) {
         return "Veuillez renseigner le code que votre banque vous a fourni."
@@ -67,9 +67,6 @@ const verifyCode = () => {
             isDialogOpened.value = false;
             codeVerificationForm.reset();
             updateProgressValue();
-            if (progress.value < 100) {
-                isDialogOpened.value = true;
-            }
         },
         onError: (errors: any) => {
             console.log(errors);
@@ -105,7 +102,6 @@ const makeLoanRequest = () => {
             console.log("props", page.props);
             console.log('loan', loan.value);
             form.reset();
-            isDialogOpened.value = true;
         },
         onError: (errors: any) => {
             console.log(errors);
@@ -127,22 +123,10 @@ const makeLoanRequest = () => {
     });
 };
 
-const getLatestPendingLoan = () => {
-    axios.get(`/api/loans/get-latest-pending`)
-        .then(response => {
-            latestPendingLoan.value = response.data;
-            if (latestPendingLoan.value) {
-                progress.value = (latestPendingLoan.value as unknown as { code_verified_count: number }).code_verified_count * 25
-            }
-        })
-        .catch(error => {
-            console.error("Erreur lors de la récupération du prêt :", error);
-        });
-}
-
 onMounted(() => {
-    getLatestPendingLoan();
-})
+    console.log("props", page.props);
+    console.log('loan', latestPendingLoan.value);
+});
 </script>
 
 <template>
@@ -160,7 +144,7 @@ onMounted(() => {
                     {{ props.status.success }}
                 </div> -->
 
-                <form @submit.prevent="makeLoanRequest" class="space-y-6">
+                <form v-if="!latestPendingLoan" @submit.prevent="makeLoanRequest" class="space-y-6">
                     <div class="grid gap-2">
                         <Label for="rib_code">RIB</Label>
                         <Input id="rib_code" v-model="form.rib_code" type="text" class="mt-1 block w-full"
@@ -185,34 +169,30 @@ onMounted(() => {
                     </div>
                 </form>
 
-                <Progress v-if="progress > 0" class="!mt-12" :model-value="progress" />
-            </div>
-        </SettingsLayout>
-
-        <Dialog v-model:open="isDialogOpened" v-if="isDialogOpened" @close="isDialogOpened = false">
-            <DialogContent class="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Code de prêt</DialogTitle>
-                    <DialogDescription>
-                        {{ codeFormSubtitle }}
-                        <span class="mt-3 font-semibold text-md text-red-600">Veuillez ne pas fermer cette fenêtre ou
-                            quitter cette page avant la fin du processus</span>
-                    </DialogDescription>
-                </DialogHeader>
-                <div class="grid gap-4 py-4">
+                <form v-else-if="latestPendingLoan && progress < 100" @submit.prevent="verifyCode" class="space-y-6">
                     <div class="grid gap-2">
                         <Label for="verification_code">Code</Label>
                         <Input id="verification_code" v-model="codeVerificationForm.code" class="mt-1 block w-full"
                             autocomplete="verification_code" placeholder="Code de vérification" />
                         <InputError :message="codeVerificationForm.errors.code" />
                     </div>
+
+                    <div class="flex items-center gap-4">
+                        <Button :disabled="form.processing">Envoyer</Button>
+
+                        <TransitionRoot :show="form.recentlySuccessful" enter="transition ease-in-out"
+                            enter-from="opacity-0" leave="transition ease-in-out" leave-to="opacity-0">
+                            <p class="text-sm text-neutral-600">Demande envoyée</p>
+                        </TransitionRoot>
+                    </div>
+                </form>
+
+                <div v-if="progress == 100" class="mb-4 p-4 bg-green-100 text-green-800 rounded !mt-12">
+                    Demande de prêt validée
                 </div>
-                <DialogFooter>
-                    <Button @click="verifyCode">
-                        Valider
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+
+                <Progress v-if="progress > 0" class="!mt-12" :model-value="progress" />
+            </div>
+        </SettingsLayout>
     </AppLayout>
 </template>
