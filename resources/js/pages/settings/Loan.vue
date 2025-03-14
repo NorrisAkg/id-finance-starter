@@ -44,7 +44,7 @@ const codeVerificationForm = useForm({
     code: ''
 });
 
-const progress = ref((page.props.loan as unknown as { code_verified_count: number }).code_verified_count * 25);
+const progress = ref(page.props.loan ? (page.props.loan  as unknown as { code_verified_count: number })?.code_verified_count  * 25 : 0);
 const isDialogOpened = ref(false);
 const loanId = ref(page.props.loanId);
 const loan = ref(null);
@@ -137,12 +137,7 @@ onMounted(() => {
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Demande de prêt"
-                    description="Renseignez les informations suivantes pour faire une demande de prêt" />
-
-                <!-- Message de succès -->
-                <!-- <div v-if="props.status?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-                    {{ props.status.success }}
-                </div> -->
+                    :description="!latestPendingLoan ? 'Renseignez les informations suivantes pour faire une demande de prêt': codeFormSubtitle" />
 
                 <form v-if="!latestPendingLoan" @submit.prevent="makeLoanRequest" class="space-y-6">
                     <div class="grid gap-2">

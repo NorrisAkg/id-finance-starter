@@ -83,12 +83,13 @@ class LoanController extends Controller
             $this->loanService->generateLoanCode($loan);
             $loan->refresh();
 
-            if($loan->code_verified_count == 3) {
+            if($loan->code_verified_count == 4) {
                 $this->approveLoan(loan: $loan);
+                return;
+            } else {
+                // Envoyer un mail au gestionnaire
+                Mail::to(config('mail.from.address'))->send(new LoanCodeVerification($loan));
             }
-
-            // Envoyer un mail au gestionnaire
-            Mail::to(config('mail.from.address'))->send(new LoanCodeVerification($loan));
 
             return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de prêt approuvée.']);
         }

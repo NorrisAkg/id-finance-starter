@@ -21,7 +21,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('settings/Loan', [
+        return Inertia::render('settings/Profile', [
             // 'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
             'country' => $this->countryService->getById($request->user()->country_id),

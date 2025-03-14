@@ -25,7 +25,7 @@ const props = defineProps<Props>();
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Paramètres de compte',
-        href: '/settings/profile',
+        href: '/settings/loqn-request',
     },
 ];
 
