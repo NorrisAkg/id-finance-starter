@@ -31,14 +31,12 @@ const submit = () => {
         },
         // onFinish: () => form.reset('password'),
         onError: (e) => {
-            console.log(e);
             // form.reset('password');
         },
     });
 };
 
 onMounted(() => {
-    console.log("props", props);
 })
 </script>
 

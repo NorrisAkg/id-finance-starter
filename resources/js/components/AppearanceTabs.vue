@@ -18,7 +18,6 @@ const tabs = [
 ] as const;
 
 onMounted(() => {
-    console.log("appearance", appearance.value);
     updateAppearance(appearance.value);
 })
 </script>

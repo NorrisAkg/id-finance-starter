@@ -55,9 +55,6 @@ const submit = () => {
 };
 
 onMounted(() => {
-    console.log("user", user);
-    console.log("form", form);
-    console.log("props", props);
 })
 </script>
 

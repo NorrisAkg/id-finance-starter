@@ -99,8 +99,6 @@ const makeLoanRequest = () => {
     form.post(route('loan.store'), {
         preserveScroll: true,
         onSuccess: () => {
-            console.log("props", page.props);
-            console.log('loan', loan.value);
             form.reset();
         },
         onError: (errors: any) => {
@@ -124,8 +122,6 @@ const makeLoanRequest = () => {
 };
 
 onMounted(() => {
-    console.log("props", page.props);
-    console.log('loan', latestPendingLoan.value);
 });
 </script>
 

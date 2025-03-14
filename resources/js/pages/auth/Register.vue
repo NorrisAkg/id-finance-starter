@@ -44,8 +44,6 @@ const errors = ref<any>({});
 // const errors = ref<Array<string>>([]);
 
 const submit = () => {
-    console.log("Formulaire soumis :", form.data());
-
     form.post(route('register'), {
         forceFormData: true,
         onSuccess: () => {
@@ -53,7 +51,6 @@ const submit = () => {
             errors.value = {};
         },
         onError: (errors) => {
-            console.log("Erreurs de validation :", errors);
             // errors.value = errors;
         },
         onFinish: () => form.reset('password', 'password_confirmation'),
@@ -61,7 +58,6 @@ const submit = () => {
 };
 
 onMounted(() => {
-    console.log("Liste des pays :", props.countries);
 })
 </script>
 
