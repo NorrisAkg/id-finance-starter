@@ -45,7 +45,7 @@ defineProps<{
 }>();
 
 const increaseBalance = () => {
-    form.post(route('loan.store'), {
+    form.post(route('transaction.store'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
