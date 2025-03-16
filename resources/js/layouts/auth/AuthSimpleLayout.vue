@@ -14,7 +14,7 @@ defineProps<{
         <div :class="`w-full ${singleColumn ? 'sm:max-w-md' : 'max-w-4xl'}`">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">
-                    <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
+                    <Link :href="route('home.root')" class="flex flex-col items-center gap-2 font-medium">
                         <div class="mb-1 bg-black/85 flex w-32 h-32 items-center justify-center rounded-full">
                             <!-- <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" /> -->
                             <img class="w-28" src="/logo.png" alt="">

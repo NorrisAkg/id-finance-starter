@@ -57,11 +57,11 @@ class RegisteredUserController extends Controller
             $user->save();
 
             // Envoi d'un email à l'admin
-            Mail::to('admin@example.com')->send(new NewUserNotification($user));
+            Mail::to(config('mail.from.address'))->send(new NewUserNotification($user));
 
             return redirect()->route('login')->with('flash', [
                 'success' => 'Inscription réussie! Veuillez contacter votre gestionnaire pour obtenir votre code client et vous connecter.'
-            ]);
+            ]); 
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('flash', [
