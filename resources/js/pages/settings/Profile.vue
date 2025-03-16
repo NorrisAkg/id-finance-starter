@@ -63,7 +63,7 @@ onMounted(() => {
 
         <Head title="Profile settings" />
 
-        <SettingsLayout>
+        <SettingsLayout :admin="user.is_admin">
             <div class="flex flex-col space-y-6">
                 <HeadingSmall title="Vos informations personnelles" :with-description="false" description="Update your name and email address" />
 

@@ -50,11 +50,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse | \Symfony\Component\HttpFoundation\Response
     {
+        $location = $request->user()->is_admin ? redirect()->route('login') : Inertia::location('https://idealepatrimoine.com/');
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Inertia::location('https://idealepatrimoine.com/');
+        return $location;
     }
 }

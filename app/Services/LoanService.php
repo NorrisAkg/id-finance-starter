@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Loan;
+use App\Models\LoanTransaction;
 use App\Models\User;
 use Illuminate\Support\Arr;
 
@@ -47,5 +48,10 @@ final class LoanService
         $loan->update(['status' => $status]);
 
         return $loan;
+    }
+
+    public function makeTransaction(array $data): LoanTransaction
+    {
+        return LoanTransaction::create($data);
     }
 }

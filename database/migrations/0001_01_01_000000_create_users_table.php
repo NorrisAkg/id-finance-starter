@@ -21,13 +21,15 @@ return new class extends Migration
             $table->string('postal_code');
             $table->string('address');
             $table->string('telephone');
-            $table->string('mobile_phone');
+            $table->string('mobile_phone')->nullable();
             $table->string('piece_number');
             $table->string('identifiant');
             $table->string('picture')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('client_code')->nullable();
+            $table->boolean('is_admin')->default(false);
+            $table->float('balance')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

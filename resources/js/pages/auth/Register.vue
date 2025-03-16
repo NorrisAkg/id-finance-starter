@@ -149,7 +149,7 @@ onMounted(() => {
                         </div>
                         <div class="grid gap-2">
                             <Label class="!text-black/80" for="mobile_phone">Mobile</Label>
-                            <Input placeholder="Ex: 06 12 34 56" id="mobile_phone" type="text" required autofocus
+                            <Input placeholder="Ex: 06 12 34 56" id="mobile_phone" type="text" autofocus
                                 :tabindex="8" v-model="form.mobile_phone" />
                             <InputError :message="form.errors.mobile_phone" />
                         </div>

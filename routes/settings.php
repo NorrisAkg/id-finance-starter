@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\LoanTransactionController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\PasswordController;
 
@@ -20,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::post('settings/loan-request', [LoanController::class, 'store'])->name('loan.store');
     Route::post('loans/{loan}/verify', [LoanController::class, 'verifyCode'])->name('loan.code.verify');
     Route::post('loans/{loan}/approve', [LoanController::class, 'approveLoan'])->name('loan.approve');
+
+    Route::get('settings/increase-balance', [LoanTransactionController::class, 'edit'])->name('transaction.edit');
+    Route::post('settings/increase-balance', [LoanTransactionController::class, 'store'])->name('transaction.store');
 
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');

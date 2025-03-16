@@ -30,7 +30,7 @@ class RegistrationRequest extends FormRequest
             'city' => 'required|string|max:255',
             'country_id' => 'required|integer|exists:countries,id',
             'telephone' => 'required|string|max:255',
-            'mobile_phone' => 'required|string|max:255',
+            'mobile_phone' => 'string|max:255',
             'piece_number' => 'required|string|max:255',
             'identifiant' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',

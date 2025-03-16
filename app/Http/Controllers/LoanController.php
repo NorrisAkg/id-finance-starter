@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IncreaseBalanceRequest;
 use App\Models\Loan;
 use App\Models\User;
 use Inertia\Inertia;
@@ -13,10 +14,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewLoanRequest;
 use App\Mail\LoanRequestNotification;
 use App\Http\Requests\LoanCodeVerificationRequest;
+use App\Services\UserService;
 
 class LoanController extends Controller
 {
-    public function __construct(protected LoanService $loanService)
+    public function __construct(protected LoanService $loanService, protected UserService $userService)
     {
         $this->middleware('auth')->except('show');
     }
@@ -34,7 +36,7 @@ class LoanController extends Controller
 
         // dd($loan);
 
-        return Inertia::render('settings/Loan', [
+        return request()->user()->is_admin ? redirect()->route('transaction.edit') : Inertia::render('settings/Loan', [
             'loan' => $loan,
             'loanId' => $loanId,
         ]);
