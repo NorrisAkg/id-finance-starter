@@ -20,6 +20,7 @@ class LoanTransactionController extends Controller
     public function edit() {
         return Inertia::render('settings/IncreaseBalance', [
             'clients' => $this->userService->getAllUsersExceptAdmin(),
+            'flash' => request()->session()->get('flash'),
         ]);
     }
 
@@ -29,6 +30,6 @@ class LoanTransactionController extends Controller
         $transaction = $this->loanService->makeTransaction($request->validated());
         $this->userService->increaseBalance($client, $request->amount);
 
-        return redirect()->route('transaction.edit')->with('status', ['success' => 'Solde crédité avec succès.']);
+        return redirect()->route('transaction.edit')->with('flash', ['success' => 'Solde crédité avec succès.']);
     }
 }

@@ -77,6 +77,11 @@ onMounted(() => {
                 <HeadingSmall title="Créditer un solde"
                     description="Remplissez le formulaire ci-dessous pour créditer un solde" />
 
+                <!-- Message de succès -->
+                <div v-if="(page.props.flash as any)?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+                    {{ (page.props.flash as any)?.success }}
+                </div>
+
                 <form @submit.prevent="increaseBalance" class="space-y-6">
                     <!-- Choose client -->
                     <div class="grid gap-2">

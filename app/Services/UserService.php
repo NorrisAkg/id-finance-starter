@@ -9,6 +9,7 @@ class UserService
 {
     public function getAllUsersExceptAdmin(): Collection
     {
+        // Récupérer les utilisateurs qui ont au moins un prêt
         return User::where('is_admin', false)->get();
     }
 

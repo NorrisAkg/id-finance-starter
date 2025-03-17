@@ -96,6 +96,7 @@ class LoginRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $user = User::where('email', $this->email)->first();
+
             if ($user && $user->client_code !== $this->client_code) {
                 $validator->errors()->add('client_code', 'Le code client nque vous avez fourni n\'est pas correct.');
             }
