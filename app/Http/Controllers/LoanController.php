@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\IncreaseBalanceRequest;
 use App\Models\Loan;
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Services\LoanService;
 use App\Mail\LoanCodeVerification;
 use Illuminate\Routing\Controller;
@@ -61,7 +59,7 @@ class LoanController extends Controller
 
         // dd($loan->toArray());
 
-        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with(['status', ['success' => 'Demande de prêt envoyée avec succès.']]);
+        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with(['status', ['success' => 'Demande de transfert envoyée avec succès.']]);
     }
 
     public function show(Loan $loan)
@@ -93,7 +91,7 @@ class LoanController extends Controller
                 Mail::to(config('mail.from.address'))->send(new LoanCodeVerification($loan));
             }
 
-            return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de prêt approuvée.']);
+            return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de transfert approuvée.']);
         }
 
         return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['error' => 'Code incorrect.']);
@@ -106,6 +104,6 @@ class LoanController extends Controller
             'code' => null
         ]);
 
-        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de prêt approuvée.']);
+        return redirect()->route('loan.edit', ['loan_id' => $loan->id])->with('status', ['success' => 'Demande de transfert approuvée.']);
     }
 }

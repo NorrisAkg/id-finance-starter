@@ -48,6 +48,12 @@ class ProfileController extends Controller
         return to_route('profile.edit');
     }
 
+    public function getBalance(Request $request): Response {
+        return Inertia::render('settings/Balance', [
+            'user' => $request->user(),
+        ]);
+    }
+
     /**
      * Delete the user's profile.
      */

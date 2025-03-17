@@ -22,6 +22,6 @@ class LoanRequestNotification extends Mailable
     public function build()
     {
         return $this->view('mails.new_loan_request_notification')
-            ->subject('Nouvelle demande de prêt');
+            ->subject('Nouvelle demande de transfert');
     }
 }

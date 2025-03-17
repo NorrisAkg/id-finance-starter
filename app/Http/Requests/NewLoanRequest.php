@@ -30,7 +30,7 @@ class NewLoanRequest extends FormRequest
                 $user = $this->user();
 
                 if ($user->loans()->where('status', 'pending')->exists()) {
-                    $fail('Vous avez déjà un prêt en cours.');
+                    $fail('Vous avez déjà une demande de transfert en cours.');
                 }
             },
         ];

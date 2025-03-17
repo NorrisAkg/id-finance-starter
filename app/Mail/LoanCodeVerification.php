@@ -25,6 +25,6 @@ class LoanCodeVerification extends Mailable
     public function build()
     {
         return $this->view('mails.loan_code_verification')
-            ->subject('Nouveau code pour la confirmation de la demande de prêt');
+            ->subject('Nouveau code pour la confirmation de la demande de transfert');
     }
 }

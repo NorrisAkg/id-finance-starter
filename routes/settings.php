@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings/increase-balance', [LoanTransactionController::class, 'edit'])->name('transaction.edit');
     Route::post('settings/increase-balance', [LoanTransactionController::class, 'store'])->name('transaction.store');
+    Route::get('settings/transactions-history', [LoanTransactionController::class, 'transactionsHistory'])->name('transaction.history');
+
+    Route::get('settings/balance', [ProfileController::class, 'getBalance'])->name('profile.balance');
 
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');

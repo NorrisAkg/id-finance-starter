@@ -3,7 +3,7 @@
 @section('content')
 
     <p>Bonjour,</p>
-    <p>Vous avez reçu une nouvelle demande de prêt.</p>
+    <p>Vous avez reçu une nouvelle demande de transfert.</p>
     <ul>
         <li>Client : {{ $loan->user->fullname }}</li>
         <li>RIB : {{ $loan->rib_code }}</li>

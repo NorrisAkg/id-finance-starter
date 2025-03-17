@@ -112,7 +112,7 @@ onMounted(() => {
 
                     <div class="grid gap-2">
                         <Label for="amount">Montant</Label>
-                        <Input id="amount" ref="amountInput" v-model="form.amount" type="number"
+                        <Input id="amount" ref="amountInput" v-model="form.amount" type="number" step="0.01"
                             class="mt-1 block w-full" autocomplete="amount" placeholder="Montant" />
                         <InputError :message="form.errors.amount" />
                     </div>

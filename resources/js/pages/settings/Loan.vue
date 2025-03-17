@@ -14,19 +14,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SharedData, User, type BreadcrumbItem } from '@/types';
 
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Demande de prêt',
+        title: 'Transfert',
         href: '/settings/loan-request',
     },
 ];
@@ -34,7 +24,6 @@ const breadcrumbItems: BreadcrumbItem[] = [
 // const page = usePage();
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
-// const user = page.props.auth.user as User;
 const ribCodeInput = ref<HTMLInputElement | null>(null);
 const amountInput = ref<HTMLInputElement | null>(null);
 
@@ -90,7 +79,7 @@ watchEffect(() => {
                 loan.value = response.data;
             })
             .catch(error => {
-                console.error("Erreur lors de la récupération du prêt :", error);
+                console.error("Erreur lors de la récupération du transfert :", error);
             });
     }
 });
@@ -131,12 +120,12 @@ onMounted(() => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
 
-        <Head title="Password settings" />
+        <Head title="Demande de transfert" />
 
         <SettingsLayout :admin="user.is_admin">
             <div class="space-y-6">
-                <HeadingSmall title="Demande de prêt"
-                    :description="!latestPendingLoan ? 'Renseignez les informations suivantes pour faire une demande de prêt': codeFormSubtitle" />
+                <HeadingSmall title="Transfert"
+                    :description="!latestPendingLoan ? 'Renseignez les informations suivantes démarrer votre transfert': codeFormSubtitle" />
 
                 <form v-if="!latestPendingLoan" @submit.prevent="makeLoanRequest" class="space-y-6">
                     <div class="grid gap-2">
@@ -148,7 +137,7 @@ onMounted(() => {
 
                     <div class="grid gap-2">
                         <Label for="amount">Montant</Label>
-                        <Input id="amount" ref="amountInput" v-model="form.amount" type="number"
+                        <Input id="amount" ref="amountInput" v-model="form.amount" type="number" step="0.01"
                             class="mt-1 block w-full" autocomplete="amount" placeholder="Montant" />
                         <InputError :message="form.errors.amount" />
                     </div>
@@ -182,7 +171,7 @@ onMounted(() => {
                 </form>
 
                 <div v-if="progress == 100" class="mb-4 p-4 bg-green-100 text-green-800 rounded !mt-12">
-                    Demande de prêt validée
+                    Demande de transfert validée
                 </div>
 
                 <Progress v-if="progress > 0" class="!mt-12" :model-value="progress" />

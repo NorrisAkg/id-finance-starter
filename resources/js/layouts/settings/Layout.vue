@@ -15,8 +15,8 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/loan-request',
     },
     {
-        title: 'Historique des transactions',
-        href: '/settings/lhistory',
+        title: 'Transactions',
+        href: '/settings/transactions-history',
     },
     {
         title: 'Informations personnelles',
@@ -65,7 +65,7 @@ const currentPath = window.location.pathname;
                 <nav class="flex flex-col space-x-0 space-y-1">
                     <Button v-if="!admin" v-for="item in sidebarNavItems" :key="item.href" variant="ghost"
                         :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]" as-child>
-                        <Link :href="item.href">
+                        <Link :href="item.href" class="overflow-ellipsis">
                         {{ item.title }}
                         </Link>
                     </Button>

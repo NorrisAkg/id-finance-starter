@@ -49,7 +49,7 @@ class LoanCodeVerificationRequest extends FormRequest
 
     public function messages() {
         return [
-            'code.required' => 'Le code du prêt est requis.',
+            'code.required' => 'Le code du transfert est requis.',
         ];
     }
 }

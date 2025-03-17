@@ -43,13 +43,13 @@ class IncreaseBalanceRequest extends FormRequest
             $user = User::where('id', $this->client_id)->first();
 
             // if($user->loans->count() == 0){
-            //     $validator->errors()->add('client_id', 'L\'utilisateur n\'a aucun prêt en cours.');
+            //     $validator->errors()->add('client_id', 'L\'utilisateur n\'a aucun transfert en cours.');
             // }
 
-            // SI le montant résultant de l'opération est supérieur au smontant du prêt demandé par l'utilisateur
+            // SI le montant résultant de l'opération est supérieur au smontant du transfert demandé par l'utilisateur
                 // Retourner un message d'erreur
             // if($this->amount + $user->balance > $user->loans()->first()?->amount){
-            //     $validator->errors()->add('amount', 'Avec ce montant, la balance de l\'utilisateur sera supérieure au montant du prêt demandé.');
+            //     $validator->errors()->add('amount', 'Avec ce montant, la balance de l\'utilisateur sera supérieure au montant du transfert demandé.');
             // }
         });
     }

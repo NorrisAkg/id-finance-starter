@@ -39,6 +39,7 @@ export interface User {
     piece_number: string;
     identifiant: string;
     picture: string;
+    balance: number;
     is_admin: boolean;
     created_at: string;
     updated_at: string;
@@ -61,6 +62,15 @@ export interface Loan {
     created_at: string;
     updated_at: string;
     user: User;
+}
+
+export interface LoanTransaction {
+    id: number;
+    label: string;
+    user_id: number;
+    amount: number;
+    created_at: string;
+    updated_at: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
