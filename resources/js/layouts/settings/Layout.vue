@@ -43,10 +43,10 @@ const adminSidebarNavItems: NavItem[] = [
     //     title: 'Informations personnelles',
     //     href: '/settings/profile',
     // },
-    {
-        title: 'Mot de passe',
-        href: '/settings/password',
-    },
+    // {
+    //     title: 'Mot de passe',
+    //     href: '/settings/password',
+    // },
     {
         title: 'Appearance',
         href: '/settings/appearance',

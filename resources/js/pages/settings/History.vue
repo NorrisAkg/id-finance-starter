@@ -47,9 +47,6 @@ const transactions: Array<LoanTransaction> = page.props.transactions as LoanTran
                             </TableHead>
                             <TableHead>Montant</TableHead>
                             <TableHead class="text-right">Date</TableHead>
-                            <!-- <TableHead class="text-right">
-                                Amount
-                            </TableHead> -->
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -59,9 +56,6 @@ const transactions: Array<LoanTransaction> = page.props.transactions as LoanTran
                             </TableCell>
                             <TableCell class="font-bold">{{ transaction.amount }} <span class="ml-2">&#8364;</span></TableCell>
                             <TableCell class="text-right">{{ transaction.created_at }}</TableCell>
-                            <!-- <TableCell class="text-right">
-                                {{ transaction.totalAmount }}
-                            </TableCell> -->
                         </TableRow>
                     </TableBody>
                 </Table>
