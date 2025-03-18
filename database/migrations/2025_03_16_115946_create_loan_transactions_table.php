@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained('users');
             $table->string('label');
             $table->float('amount', 2);
+            $table->enum('type', ['deposit', 'withdraw'])->default('deposit');
             $table->timestamps();
         });
     }

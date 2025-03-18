@@ -42,11 +42,12 @@ const transactions: Array<LoanTransaction> = page.props.transactions as LoanTran
                     <!-- <TableCaption>A list of your recent invoices.</TableCaption> -->
                     <TableHeader>
                         <TableRow>
-                            <TableHead class="w-[250px]">
+                            <TableHead class="w-[450px]">
                                 Intitulé
                             </TableHead>
-                            <TableHead>Montant</TableHead>
-                            <TableHead class="text-right">Date</TableHead>
+                            <TableHead class="w-[250px]">Type d'opération</TableHead>
+                            <TableHead class="w-[250px]">Montant</TableHead>
+                            <TableHead class="text-right w-[280px]">Date</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -54,6 +55,7 @@ const transactions: Array<LoanTransaction> = page.props.transactions as LoanTran
                             <TableCell class="font-medium">
                                 {{ transaction.label }}
                             </TableCell>
+                            <TableCell>{{ transaction.type == 'deposit' ? 'Crédit' : 'Débit' }}</TableCell>
                             <TableCell class="font-bold">{{ transaction.amount }} <span class="ml-2">&#8364;</span></TableCell>
                             <TableCell class="text-right">{{ transaction.created_at }}</TableCell>
                         </TableRow>

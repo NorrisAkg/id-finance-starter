@@ -1,4 +1,3 @@
-import { Country } from './index';
 import type { PageProps } from '@inertiajs/core';
 import type { LucideIcon } from 'lucide-vue-next';
 
@@ -68,6 +67,7 @@ export interface LoanTransaction {
     id: number;
     label: string;
     user_id: number;
+    type: 'deposit' | 'withdraw';
     amount: number;
     created_at: string;
     updated_at: string;

@@ -27,6 +27,7 @@ class IncreaseBalanceRequest extends FormRequest
             'client_id' => ['required', 'exists:users,id'],
             'label' => ['required', 'string'],
             'amount' => ['required', 'numeric'],
+            'type' => ['required', 'in:deposit,withdraw'],
         ];
     }
 

@@ -32,8 +32,8 @@ class LoanTransactionController extends Controller
     {
         $client = User::find($request->client_id);
 
-        $transaction = $this->loanService->makeTransaction($request->validated());
-        $this->userService->increaseBalance($client, $request->amount);
+        $this->loanService->makeTransaction($request->validated());
+        $this->userService->alterBalance($client, $request->amount, type: $request->type);
 
         return redirect()->route('transaction.edit')->with('flash', ['success' => 'Solde crédité avec succès.']);
     }

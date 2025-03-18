@@ -14,9 +14,9 @@ class UserService
         return User::where('is_admin', false)->get();
     }
 
-    public function increaseBalance(User $user, float $amount): void
+    public function alterBalance(User $user, float $amount, string $type): void
     {
-        $user->balance += $amount;
+        $user->balance = $type == 'deposit' ? $user->balance + $amount : $user->balance - $amount;
         $user->save();
     }
 

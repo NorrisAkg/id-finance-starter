@@ -23,7 +23,7 @@ import { SharedData, User, type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Créditer un solde',
+        title: 'Modifier un solde',
         href: '/settings/increase-balance',
     },
 ];
@@ -31,18 +31,20 @@ const breadcrumbItems: BreadcrumbItem[] = [
 // const page = usePage();
 const page = usePage<SharedData>();
 const user = page.props.auth.user as User;
-const ribCodeInput = ref<HTMLInputElement | null>(null);
 const amountInput = ref<HTMLInputElement | null>(null);
 
 const form = useForm({
     client_id: null,
     label: '',
     amount: '',
+    type: '',
 });
 
 defineProps<{
     clients: User[];
 }>();
+
+const types = [{label: "Créditer", value:'deposit'}, { label: "Débiter", value: 'withdraw' }];
 
 const increaseBalance = () => {
     form.post(route('transaction.store'), {
@@ -95,7 +97,29 @@ onMounted(() => {
                                 <SelectGroup>
                                     <SelectLabel>Liste des clients</SelectLabel>
                                     <SelectItem v-for="client in clients" :key="client.id" :value="client.id">
-                                        {{ client.firstname + ' ' + client.lastname }}
+                                        <span>{{ client.firstname + ' ' + client.lastname }}</span>
+                                        <br>
+                                        <span class="text-muted-foreground text-sm">{{ client.email }}</span>
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <InputError :message="form.errors.client_id" />
+                    </div>
+
+                    <!-- Choose operation type -->
+                    <div class="grid gap-2">
+                        <Label for="type">Type d'opération</Label>
+
+                        <Select id="type" v-model="form.type" required :tabindex="6">
+                            <SelectTrigger>
+                                <SelectValue placeholder="Sélectionner le type d'opération" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Type d'opération</SelectLabel>
+                                    <SelectItem v-for="(item, index) in types" :key="index" :value="item.value">
+                                        {{ item.label }}
                                     </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
@@ -118,11 +142,11 @@ onMounted(() => {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Créditer</Button>
+                        <Button :disabled="form.processing">Valider</Button>
 
                         <TransitionRoot :show="form.recentlySuccessful" enter="transition ease-in-out"
                             enter-from="opacity-0" leave="transition ease-in-out" leave-to="opacity-0">
-                            <p class="text-sm text-neutral-600">Crédit effectué</p>
+                            <p class="text-sm text-neutral-600">Opération réussie</p>
                         </TransitionRoot>
                     </div>
                 </form>
