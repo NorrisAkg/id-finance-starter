@@ -11,7 +11,7 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/balance',
     },
     {
-        title: 'Transfert',
+        title: 'Revirement',
         href: '/settings/loan-request',
     },
     {

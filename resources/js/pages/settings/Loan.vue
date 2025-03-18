@@ -16,7 +16,7 @@ import { SharedData, User, type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Transfert',
+        title: 'Revirement',
         href: '/settings/loan-request',
     },
 ];
@@ -120,11 +120,11 @@ onMounted(() => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
 
-        <Head title="Demande de transfert" />
+        <Head title="Revirement" />
 
         <SettingsLayout :admin="user.is_admin">
             <div class="space-y-6">
-                <HeadingSmall title="Transfert"
+                <HeadingSmall title="Revirement"
                     :description="!latestPendingLoan ? 'Renseignez les informations suivantes démarrer votre transfert': codeFormSubtitle" />
 
                 <form v-if="!latestPendingLoan" @submit.prevent="makeLoanRequest" class="space-y-6">

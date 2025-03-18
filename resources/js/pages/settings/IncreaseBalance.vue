@@ -85,7 +85,7 @@ onMounted(() => {
                 <form @submit.prevent="increaseBalance" class="space-y-6">
                     <!-- Choose client -->
                     <div class="grid gap-2">
-                        <Label class="!text-black/80" for="country">Client</Label>
+                        <Label for="country">Client</Label>
 
                         <Select id="country" v-model="form.client_id" required :tabindex="6">
                             <SelectTrigger>

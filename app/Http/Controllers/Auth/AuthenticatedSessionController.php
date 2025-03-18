@@ -36,7 +36,8 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('loan.edit');
+            // return redirect()->route('loan.edit');
+            return redirect()->route('profile.balance');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return back()->withErrors([

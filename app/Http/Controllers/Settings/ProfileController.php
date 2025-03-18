@@ -49,7 +49,7 @@ class ProfileController extends Controller
     }
 
     public function getBalance(Request $request): Response {
-        return Inertia::render('settings/Balance', [
+        return request()->user()->is_admin ? redirect()->route('transaction.edit') : Inertia::render('settings/Balance', [
             'user' => $request->user(),
         ]);
     }
