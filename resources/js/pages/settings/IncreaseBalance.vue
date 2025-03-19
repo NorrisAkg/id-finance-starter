@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { computed, onMounted, ref, watchEffect } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
@@ -34,11 +34,13 @@ const user = page.props.auth.user as User;
 const amountInput = ref<HTMLInputElement | null>(null);
 
 const form = useForm({
-    client_id: null,
+    client_id: '',
     label: '',
     amount: '',
     type: '',
 });
+
+const selectedClient = ref<User>()
 
 defineProps<{
     clients: User[];
@@ -65,6 +67,14 @@ const increaseBalance = () => {
     });
 };
 
+watchEffect(() => {
+    if (selectedClient.value) {
+        console.log(selectedClient.value);
+        form.client_id = selectedClient.value?.id?.toString();
+        console.log(form.client_id);
+    }
+});
+
 onMounted(() => {
 });
 </script>
@@ -76,8 +86,8 @@ onMounted(() => {
 
         <SettingsLayout :admin="user.is_admin">
             <div class="space-y-6">
-                <HeadingSmall title="Créditer un solde"
-                    description="Remplissez le formulaire ci-dessous pour créditer un solde" />
+                <HeadingSmall title="Modification de solde"
+                    description="Remplissez le formulaire ci-dessous pour créditer ou débiter un solde" />
 
                 <!-- Message de succès -->
                 <div v-if="(page.props.flash as any)?.success" class="mb-4 p-4 bg-green-100 text-green-800 rounded">
@@ -89,22 +99,26 @@ onMounted(() => {
                     <div class="grid gap-2">
                         <Label for="country">Client</Label>
 
-                        <Select id="country" v-model="form.client_id" required :tabindex="6">
+                        <Select id="country" v-model="selectedClient" required :tabindex="6">
                             <SelectTrigger>
                                 <SelectValue placeholder="Sélectionner un client" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Liste des clients</SelectLabel>
-                                    <SelectItem v-for="client in clients" :key="client.id" :value="client.id">
+                                    <SelectItem v-for="client in clients" :key="client.id" :value="client">
                                         <span>{{ client.firstname + ' ' + client.lastname }}</span>
                                         <br>
-                                        <span class="text-muted-foreground text-sm">{{ client.email }}</span>
+                                        <span v-if="!selectedClient" class="text-muted-foreground text-sm">{{ client.email }}</span>
                                     </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                         <InputError :message="form.errors.client_id" />
+                    </div>
+
+                    <div v-if="selectedClient" class="grid gap-2">
+                        <p class="text-2xl font-semibold">Solde du client: <span class="ml-2">{{ selectedClient.balance }}</span> <span class="ml-">&#8364;</span></p>
                     </div>
 
                     <!-- Choose operation type -->

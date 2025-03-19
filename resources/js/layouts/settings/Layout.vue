@@ -36,7 +36,7 @@ defineProps<{ admin?: boolean }>();
 
 const adminSidebarNavItems: NavItem[] = [
     {
-        title: 'Créditer un solde',
+        title: 'Modifier un solde',
         href: '/settings/increase-balance',
     },
     // {
