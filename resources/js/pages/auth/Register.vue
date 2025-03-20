@@ -25,7 +25,7 @@ const form = useForm({
     address: '',
     postal_code: '',
     city: '',
-    country_id: '',
+    country: '',
     telephone: '',
     mobile_phone: '',
     email: '',
@@ -117,8 +117,10 @@ onMounted(() => {
                         </div>
                         <div class="grid gap-2">
                             <Label class="!text-black/80" for="country">Pays</Label>
+                            <Input placeholder="Ex: Luxembourg" id="city" type="text" required autofocus :tabindex="6"
+                                v-model="form.country" />
 
-                            <Select id="country" v-model="form.country_id" required :tabindex="6">
+                            <!-- <Select id="country" v-model="form.country_id" required :tabindex="6">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Sélectionner un pays" />
                                 </SelectTrigger>
@@ -131,8 +133,8 @@ onMounted(() => {
                                         </SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
-                            </Select>
-                            <InputError :message="form.errors.country_id" />
+                            </Select> -->
+                            <InputError :message="form.errors.country" />
                         </div>
                     </div>
                 </div>
@@ -158,7 +160,7 @@ onMounted(() => {
                 <!-- End - Phone and mobile phone -->
 
                 <div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 justify-items-baseline">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 justify-items-baseline">
                         <div class="grid gap-2">
                             <Label class="!text-black/80" for="email">Email</Label>
                             <Input placeholder="Ex: toto@email.com" id="email" type="text" required autofocus
@@ -170,12 +172,6 @@ onMounted(() => {
                             <Input placeholder="Numéro de la pièce" id="piece_number" type="text" required autofocus
                                 :tabindex="10" autocomplete="piece_number" v-model="form.piece_number" />
                             <InputError :message="form.errors.piece_number" />
-                        </div>
-                        <div class="grid gap-2">
-                            <Label for="identifiant">Identifiant</Label>
-                            <Input placeholder="Identifiant" id="identifiant" type="text" required autofocus
-                                :tabindex="11" autocomplete="identifiant" v-model="form.identifiant" />
-                            <InputError :message="form.errors.identifiant" />
                         </div>
                     </div>
                 </div>

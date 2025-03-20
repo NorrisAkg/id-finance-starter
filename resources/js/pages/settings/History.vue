@@ -55,7 +55,7 @@ const transactions: Array<LoanTransaction> = page.props.transactions as LoanTran
                             <TableCell class="font-medium">
                                 {{ transaction.label }}
                             </TableCell>
-                            <TableCell>{{ transaction.type == 'deposit' ? 'Crédit' : 'Débit' }}</TableCell>
+                            <TableCell>{{ transaction.type }}</TableCell>
                             <TableCell class="font-bold">{{ transaction.amount }} <span class="ml-2">&#8364;</span></TableCell>
                             <TableCell class="text-right">{{ transaction.created_at }}</TableCell>
                         </TableRow>

@@ -26,7 +26,7 @@ class ProfileController extends Controller
         : Inertia::render('settings/Profile', [
             // 'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
-            'country' => $this->countryService->getById($request->user()->country_id),
+            // 'country' => $this->countryService->getById($request->user()->country_id),
         ]);
 
         return $target;

@@ -47,6 +47,7 @@ class LoanTransactionController extends Controller
                 'client_id' => $transaction->client_id,
                 'amount' => $transaction->amount,
                 'label' => $transaction->label,
+                'type' => $transaction->type == 'deposit' ? 'Crédit' : 'Débit',
                 'created_at' => Carbon::parse($transaction->created_at)->locale('fr')->isoFormat('D MMMM YYYY'),
             ]),
         ]);

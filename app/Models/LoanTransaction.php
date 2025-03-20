@@ -13,6 +13,7 @@ class LoanTransaction extends Model
         'client_id',
         'label',
         'amount',
+        'type',
     ];
 
     // Relations

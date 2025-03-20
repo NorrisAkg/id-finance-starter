@@ -10,14 +10,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { Country, type BreadcrumbItem, type SharedData, type User } from '@/types';
+import { type BreadcrumbItem, type SharedData, type User } from '@/types';
 import { LassoSelect } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
 
 interface Props {
     mustVerifyEmail: boolean;
     status?: string;
-    country: Country;
+    // country: Country;
 }
 
 const props = defineProps<Props>();
@@ -41,7 +41,7 @@ const form = useForm({
     address: user.address,
     city: user.city,
     postal_code: user.postal_code,
-    country_id: user.country_id,
+    country: user.country,
     identifiant: user.identifiant,
     piece_number: user.piece_number,
 });
@@ -65,15 +65,16 @@ onMounted(() => {
 
         <SettingsLayout :admin="user.is_admin">
             <div class="flex flex-col space-y-6">
-                <HeadingSmall title="Vos informations personnelles" :with-description="false" description="Update your name and email address" />
+                <HeadingSmall title="Vos informations personnelles" :with-description="false"
+                    description="Update your name and email address" />
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div>
                         <Label for="firstname">Identité</Label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                             <div class="grid gap-2">
-                                <Input readonly id="firstname" class="mt-1 block w-full" v-model="form.firstname" required
-                                    autocomplete="firstname" placeholder="Prénom" />
+                                <Input readonly id="firstname" class="mt-1 block w-full" v-model="form.firstname"
+                                    required autocomplete="firstname" placeholder="Prénom" />
                                 <InputError class="mt-2" :message="form.errors.firstname" />
                             </div>
 
@@ -90,10 +91,10 @@ onMounted(() => {
                         <div class="grid gap-2">
                             <Label for="country">Pays</Label>
                             <div class="relative">
-                                <Input id="country" readonly class="mt-1 block w-full" :model-value="country.flag + ' ' + country.name" required
-                                    autocomplete="country" placeholder="Pays" />
+                                <Input id="country" readonly class="mt-1 block w-full" :model-value="form.country"
+                                    required autocomplete="country" placeholder="Pays" />
                             </div>
-                            <InputError class="mt-2" :message="form.errors.country_id" />
+                            <InputError class="mt-2" :message="form.errors.country" />
                         </div>
 
                         <div class="grid gap-2">
@@ -114,8 +115,8 @@ onMounted(() => {
 
                         <div class="grid gap-2">
                             <Label for="postal_code">Code postal</Label>
-                            <Input readonly id="postal_code" class="mt-1 block w-full" v-model="form.postal_code" required
-                                autocomplete="postal_code" placeholder="Ville" />
+                            <Input readonly id="postal_code" class="mt-1 block w-full" v-model="form.postal_code"
+                                required autocomplete="postal_code" placeholder="Ville" />
                             <InputError class="mt-2" :message="form.errors.postal_code" />
                         </div>
                     </div>
@@ -130,8 +131,8 @@ onMounted(() => {
 
                         <div class="grid gap-2">
                             <Label for="mobile_phone">Mobile</Label>
-                            <Input readonly id="mobile_phone" class="mt-1 block w-full" v-model="form.mobile_phone" required
-                                autocomplete="mobile_phone" placeholder="Ville" />
+                            <Input readonly id="mobile_phone" class="mt-1 block w-full" v-model="form.mobile_phone"
+                                required autocomplete="mobile_phone" placeholder="Ville" />
                             <InputError class="mt-2" :message="form.errors.mobile_phone" />
                         </div>
                     </div>

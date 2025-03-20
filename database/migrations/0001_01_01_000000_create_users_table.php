@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
-            $table->foreignId('country_id')->constrained('countries');
+            // $table->foreignId('country_id')->constrained('countries');
             $table->string('city');
             $table->string('postal_code');
             $table->string('address');

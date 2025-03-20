@@ -43,13 +43,13 @@ const loan = ref(null);
 const latestPendingLoan = computed(() => page.props.loan);
 const codeFormSubtitle = computed(() => {
     if (progress.value == 0) {
-        return "Veuillez renseigner le code que votre banque vous a fourni."
+        return "Veuillez contacter votre gestionnaire pour recevoir votre code de virement."
     } else if (progress.value == 25) {
-        return "Veuillez renseigner le deuxième code que votre banque vous a fourni."
+        return "Veuillez contacter votre gestionnaire pour recevoir votre code de confirmation de virement."
     } else if (progress.value == 50) {
-        return "Veuillez renseigner le troisième code que votre banque vous a fourni."
+        return "Veuillez contacter votre gestionnaire pour recevoir votre code de validation de virement."
     } else if (progress.value == 75) {
-        return "Veuillez renseigner le dernier code que votre banque vous a fourni."
+        return "Veuillez contacter votre gestionnaire pour recevoir votre code de finalisation de virement."
     }
 });
 

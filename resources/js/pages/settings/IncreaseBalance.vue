@@ -53,6 +53,7 @@ const increaseBalance = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
+            selectedClient.value = null
         },
         onError: (errors: any) => {
             console.log(errors);
